@@ -1,18 +1,24 @@
 package br.com.omarcovelho;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+@RequiredArgsConstructor
+@Getter
 public class Ram {
+  private final RamAddress address;
+  private final RamMemory memory;
 
-  @Setter
-  private Byte address = new Byte();
-  private final Byte[] values = new Byte[256];
-
-  public Byte read() {
-    return values[address.toInt()];
+  public void setAddress() {
+    this.address.set();
   }
 
-  public void set(Byte aByte) {
-    values[address.toInt()] = aByte;
+  public void setMemory() {
+    this.memory.set(address);
+  }
+
+  public void enableMemory() {
+    this.memory.enable(this.address);
   }
 }
