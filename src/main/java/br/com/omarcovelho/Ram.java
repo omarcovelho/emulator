@@ -1,10 +1,9 @@
 package br.com.omarcovelho;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-public class Ram extends ControlledComponent implements Clockeable {
+public class Ram extends ControlledComponent implements Clockable {
   private final RamAddress address;
   private final RamMemory memory;
 
@@ -27,14 +26,14 @@ public class Ram extends ControlledComponent implements Clockeable {
   }
 
   @Override
-  public void enable() {
+  public void clkEnable() {
     if(this.getMemory().isEnable()) {
       this.getMemory().enable(this.getAddress());
     }
   }
 
   @Override
-  public void set() {
+  public void clkSet() {
     if(this.getAddress().isSet()) {
       this.getAddress().set();
     }

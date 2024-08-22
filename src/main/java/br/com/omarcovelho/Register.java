@@ -1,10 +1,9 @@
 package br.com.omarcovelho;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-public class Register extends ControlledComponent implements Clockeable {
+public class Register extends ControlledComponent implements Clockable {
   private Byte value = new Byte();
   private final Bus bus;
 
@@ -14,7 +13,7 @@ public class Register extends ControlledComponent implements Clockeable {
   }
 
   @Override
-  public void set() {
+  public void clkSet() {
     if(this.isSet()) {
       this.value = Byte.of(bus.getValue());
     }
@@ -26,7 +25,7 @@ public class Register extends ControlledComponent implements Clockeable {
   }
 
   @Override
-  public void enable() {
+  public void clkEnable() {
     if(this.isEnable()) {
       this.bus.put(this.value);
     }

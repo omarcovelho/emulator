@@ -12,29 +12,24 @@ class AluTest {
     public void shouldAddTwoRegisters() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
 
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b00001101));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b00001010));
-        setValueOnRegister(clock, a);
 
         alu.add();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(23)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b00010111)));
         assertFalse(alu.isCarryOut());
     }
 
-    private static void setAcc(Clock clock, Register acc) {
-        acc.setSet(true);
+    private static void setAcc(Clock clock, Register register) {
+        register.setSet(true);
         clock.tick();
-        acc.setSet(false);
+        register.setSet(false);
     }
 
     private static void setValueOnRegister(Clock clock, Register tmp) {
@@ -45,22 +40,17 @@ class AluTest {
     public void shouldAddWithCarryIn() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
         commonBus.put(Byte.of(13));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(10));
-        setValueOnRegister(clock, a);
 
         alu.add();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(24)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(24)));
         assertFalse(alu.isCarryOut());
     }
 
@@ -68,22 +58,17 @@ class AluTest {
     public void shouldSetCarryOutWhenAdding() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
         commonBus.put(Byte.of(255));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(255));
-        setValueOnRegister(clock, a);
 
         alu.add();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(255)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(255)));
         assertTrue(alu.isCarryOut());
     }
 
@@ -91,19 +76,14 @@ class AluTest {
     public void shouldShiftRight() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(8));
-        setValueOnRegister(clock, a);
 
         alu.shiftRight();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(4)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(4)));
         assertFalse(alu.isCarryOut());
     }
 
@@ -111,39 +91,29 @@ class AluTest {
     public void shouldShiftRightWithCarryIn() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
         commonBus.put(Byte.of(2));
-        setValueOnRegister(clock, a);
 
         alu.shiftRight();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(129)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(129)));
     }
 
     @Test
     public void shouldShiftRightWithCarryOut() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(171));
-        setValueOnRegister(clock, a);
 
         alu.shiftRight();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(85)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(85)));
         assertTrue(alu.isCarryOut());
     }
 
@@ -151,19 +121,14 @@ class AluTest {
     public void shouldShiftLeft() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(9));
-        setValueOnRegister(clock, a);
 
         alu.shiftLeft();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(18)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(18)));
         assertFalse(alu.isCarryOut());
     }
 
@@ -171,20 +136,15 @@ class AluTest {
     public void shouldShiftLeftWithCarryOut() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
         commonBus.put(Byte.of(0b11000001));
-        setValueOnRegister(clock, a);
 
         alu.shiftLeft();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b10000011)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10000011)));
         assertTrue(alu.isCarryOut());
     }
 
@@ -192,128 +152,101 @@ class AluTest {
     public void shouldNotRegister() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b10101001));
-        setValueOnRegister(clock, a);
 
         alu.not();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b01010110)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b01010110)));
     }
 
     @Test
     public void shouldAndTwoRegisters() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b11000011));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b10111001));
-        setValueOnRegister(clock, a);
 
         alu.and();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b10000001)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10000001)));
     }
 
     @Test
     public void shouldOrTwoRegisters() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b11000011));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b10111001));
-        setValueOnRegister(clock, a);
 
         alu.or();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b11111011)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b11111011)));
     }
 
     @Test
     public void shouldXorTwoRegisters() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b11000011));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b10111001));
-        setValueOnRegister(clock, a);
 
         alu.xor();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b01111010)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b01111010)));
     }
 
     @Test
     public void shouldCompareTwoRegisters() {
         Clock clock = new Clock();
         Bus commonBus = new Bus();
-        Bus aluBus = new Bus();
-        Register a = new Register(commonBus, clock);
-        Register tmp = new Register(commonBus, clock);
-        Register acc = new Register(aluBus, clock);
-        Alu alu = new Alu(a, tmp, acc, aluBus);
+        Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b10000000));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b00001000));
-        setValueOnRegister(clock, a);
 
 
         alu.compare();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b10001000)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10001000)));
         assertFalse(alu.isALarger());
         assertFalse(alu.isEqual());
 
-        commonBus.put(Byte.of(0b10000000));
-        setValueOnRegister(clock, a);
         commonBus.put(Byte.of(0b00001000));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
+        commonBus.put(Byte.of(0b10000000));
 
         alu.compare();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b10001000)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10001000)));
         assertTrue(alu.isALarger());
         assertFalse(alu.isEqual());
 
         commonBus.put(Byte.of(0b10000000));
-        setValueOnRegister(clock, a);
         commonBus.put(Byte.of(0b10000000));
-        setValueOnRegister(clock, tmp);
+        setValueOnRegister(clock, alu.getTmp());
 
         alu.compare();
-        setAcc(clock, acc);
+        setAcc(clock, alu.getAcc());
 
-        assertThat(acc.getValue(), equalTo(Byte.of(0b00000000)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b00000000)));
         assertFalse(alu.isALarger());
         assertTrue(alu.isEqual());
     }
