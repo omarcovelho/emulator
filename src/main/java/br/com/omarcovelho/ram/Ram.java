@@ -1,10 +1,9 @@
 package br.com.omarcovelho.ram;
 
-import br.com.omarcovelho.common.Bus;
-import br.com.omarcovelho.common.Clock;
-import br.com.omarcovelho.common.Clockable;
-import br.com.omarcovelho.common.ControlledComponent;
+import br.com.omarcovelho.common.*;
 import lombok.Getter;
+
+import java.util.Map;
 
 @Getter
 public class Ram extends ControlledComponent implements Clockable {
@@ -15,6 +14,11 @@ public class Ram extends ControlledComponent implements Clockable {
     this.address = new RamAddress(bus);
     this.memory = new RamMemory(bus);
     this.subscribe(clock);
+
+    ComponentsRegistry.put(Map.ofEntries(
+        Map.entry(ComponentType.MAR, address),
+        Map.entry(ComponentType.RAM, memory)
+    ));
   }
 
   public void setAddress(boolean b) {
@@ -46,8 +50,8 @@ public class Ram extends ControlledComponent implements Clockable {
     }
   }
 
-  @Override
-  public void subscribe(Clock clock) {
-    clock.register(this);
-  }
+    public void printState() {
+      System.out.println("Current Memory Address: " + this.address);
+//      System.out.println("Memory Values: " + this.memory);
+    }
 }

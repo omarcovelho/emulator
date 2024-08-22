@@ -4,6 +4,8 @@ import br.com.omarcovelho.common.Bus;
 import br.com.omarcovelho.common.Byte;
 import br.com.omarcovelho.common.Clock;
 import br.com.omarcovelho.common.Register;
+import br.com.omarcovelho.cpu.alu.Alu;
+import br.com.omarcovelho.cpu.alu.AluOperationFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -16,7 +18,7 @@ class AluTest {
     @Test
     public void shouldAddTwoRegisters() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
 
         Alu alu = new Alu(clock, commonBus);
 
@@ -24,10 +26,29 @@ class AluTest {
         setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b00001010));
 
-        alu.add();
+        alu.setOperation(AluOperationFactory.ADD);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b00010111)));
+        assertFalse(alu.isCarryOut());
+    }
+
+    @Test
+    public void shouldAddTwoRegistersWithBus1() {
+        Clock clock = new Clock();
+        Bus commonBus = new Bus("commonBus");
+
+        Alu alu = new Alu(clock, commonBus);
+
+        commonBus.put(Byte.of(0b00000001));
+        setValueOnRegister(clock, alu.getTmp());
+        commonBus.put(Byte.of(0b00001010));
+        alu.setBus1(true);
+
+        alu.setOperation(AluOperationFactory.ADD);
+        setAcc(clock, alu.getAcc());
+
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b00000010)));
         assertFalse(alu.isCarryOut());
     }
 
@@ -44,7 +65,7 @@ class AluTest {
     @Test
     public void shouldAddWithCarryIn() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
@@ -52,7 +73,7 @@ class AluTest {
         setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(10));
 
-        alu.add();
+        alu.setOperation(AluOperationFactory.ADD);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(24)));
@@ -62,7 +83,7 @@ class AluTest {
     @Test
     public void shouldSetCarryOutWhenAdding() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
@@ -70,7 +91,7 @@ class AluTest {
         setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(255));
 
-        alu.add();
+        alu.setOperation(AluOperationFactory.ADD);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(255)));
@@ -80,12 +101,12 @@ class AluTest {
     @Test
     public void shouldShiftRight() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(8));
 
-        alu.shiftRight();
+        alu.setOperation(AluOperationFactory.SHR);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(4)));
@@ -95,13 +116,13 @@ class AluTest {
     @Test
     public void shouldShiftRightWithCarryIn() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
         commonBus.put(Byte.of(2));
 
-        alu.shiftRight();
+        alu.setOperation(AluOperationFactory.SHR);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(129)));
@@ -110,12 +131,12 @@ class AluTest {
     @Test
     public void shouldShiftRightWithCarryOut() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(171));
 
-        alu.shiftRight();
+        alu.setOperation(AluOperationFactory.SHR);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(85)));
@@ -125,12 +146,12 @@ class AluTest {
     @Test
     public void shouldShiftLeft() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(9));
 
-        alu.shiftLeft();
+        alu.setOperation(AluOperationFactory.SHL);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(18)));
@@ -140,13 +161,13 @@ class AluTest {
     @Test
     public void shouldShiftLeftWithCarryOut() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
         commonBus.put(Byte.of(0b11000001));
 
-        alu.shiftLeft();
+        alu.setOperation(AluOperationFactory.SHL);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10000011)));
@@ -156,12 +177,12 @@ class AluTest {
     @Test
     public void shouldNotRegister() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b10101001));
 
-        alu.not();
+        alu.setOperation(AluOperationFactory.NOT);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b01010110)));
@@ -170,14 +191,14 @@ class AluTest {
     @Test
     public void shouldAndTwoRegisters() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b11000011));
         setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b10111001));
 
-        alu.and();
+        alu.setOperation(AluOperationFactory.AND);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10000001)));
@@ -186,14 +207,14 @@ class AluTest {
     @Test
     public void shouldOrTwoRegisters() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b11000011));
         setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b10111001));
 
-        alu.or();
+        alu.setOperation(AluOperationFactory.OR);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b11111011)));
@@ -202,14 +223,14 @@ class AluTest {
     @Test
     public void shouldXorTwoRegisters() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b11000011));
         setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b10111001));
 
-        alu.xor();
+        alu.setOperation(AluOperationFactory.XOR);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b01111010)));
@@ -218,7 +239,7 @@ class AluTest {
     @Test
     public void shouldCompareTwoRegisters() {
         Clock clock = new Clock();
-        Bus commonBus = new Bus();
+        Bus commonBus = new Bus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
         commonBus.put(Byte.of(0b10000000));
@@ -226,7 +247,7 @@ class AluTest {
         commonBus.put(Byte.of(0b00001000));
 
 
-        alu.compare();
+        alu.setOperation(AluOperationFactory.CMP);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10001000)));
@@ -237,7 +258,7 @@ class AluTest {
         setValueOnRegister(clock, alu.getTmp());
         commonBus.put(Byte.of(0b10000000));
 
-        alu.compare();
+        alu.setOperation(AluOperationFactory.CMP);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b10001000)));
@@ -248,7 +269,7 @@ class AluTest {
         commonBus.put(Byte.of(0b10000000));
         setValueOnRegister(clock, alu.getTmp());
 
-        alu.compare();
+        alu.setOperation(AluOperationFactory.CMP);
         setAcc(clock, alu.getAcc());
 
         assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b00000000)));

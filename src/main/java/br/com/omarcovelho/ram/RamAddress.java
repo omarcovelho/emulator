@@ -17,4 +17,9 @@ public class RamAddress extends ControlledComponent {
     public Byte getValue() {
         return Byte.of(value);
     }
+
+    @Override
+    public String toString() {
+        return Integer.toBinaryString(value.toInt());
+    }
 }

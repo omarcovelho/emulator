@@ -13,7 +13,7 @@ class RamTest {
   @Test
   public void shouldSetAddress() {
     Clock clock = new Clock();
-    Bus bus = new Bus();
+    Bus bus = new Bus("commonBus");
     Ram ram = new Ram(bus, clock);
     ram.subscribe(clock);
 
@@ -28,7 +28,7 @@ class RamTest {
   public void shouldSetMemoryValue() {
     Clock clock = new Clock();
 
-    Bus bus = new Bus();
+    Bus bus = new Bus("commonBus");
     Ram ram = new Ram(bus, clock);
 
     bus.put(Byte.of(2));

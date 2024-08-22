@@ -1,8 +1,11 @@
 package br.com.omarcovelho.common;
 
 public interface Clockable {
-    void clkEnable();
-    void clkSet();
-    default void clk() {};
-    void subscribe(Clock clock);
+    default void clkEnable() {};
+    default void clkSet() {};
+    default void preClock() {};
+    default void clkFinish() {};
+    default void subscribe(Clock clock) {
+        clock.register(this);
+    };
 }

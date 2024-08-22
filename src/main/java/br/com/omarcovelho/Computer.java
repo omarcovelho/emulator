@@ -13,4 +13,11 @@ public class Computer {
         this.ram = new Ram(bus, clock);
         this.cpu = new Cpu(bus, clock);
     }
+
+    public void printState() {
+        System.out.println("======== Computer State ========");
+        cpu.printState();
+        ram.printState();
+        System.out.println("======== End of Computer State ========");
+    }
 }

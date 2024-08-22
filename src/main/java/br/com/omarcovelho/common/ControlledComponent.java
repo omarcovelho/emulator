@@ -8,4 +8,9 @@ import lombok.Setter;
 public abstract class ControlledComponent {
     private boolean enable;
     private boolean set;
+
+    public void clearFlags() {
+        this.enable = false;
+        this.set = false;
+    }
 }

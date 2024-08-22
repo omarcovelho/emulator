@@ -7,15 +7,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class Clock {
-    private List<Clockable> components = new ArrayList<>();
+    private List<Clockable> clockableComponents = new ArrayList<>();
 
     public void tick() {
-        components.forEach(Clockable::clkEnable);
-        components.forEach(Clockable::clkSet);
+        clockableComponents.forEach(Clockable::preClock);
+        clockableComponents.forEach(Clockable::clkEnable);
+        clockableComponents.forEach(Clockable::clkSet);
+        clockableComponents.forEach(Clockable::clkFinish);
     }
 
     public void register(Clockable component) {
-        components.add(component);
+        clockableComponents.add(component);
     }
 }
 
