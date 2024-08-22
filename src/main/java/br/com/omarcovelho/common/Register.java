@@ -1,4 +1,4 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.common;
 
 import lombok.Getter;
 

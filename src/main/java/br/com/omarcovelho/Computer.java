@@ -1,5 +1,10 @@
 package br.com.omarcovelho;
 
+import br.com.omarcovelho.common.Bus;
+import br.com.omarcovelho.common.Clock;
+import br.com.omarcovelho.cpu.Cpu;
+import br.com.omarcovelho.ram.Ram;
+
 public class Computer {
     private final Ram ram;
     private final Cpu cpu;

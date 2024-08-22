@@ -1,9 +1,12 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.ram;
+
+import br.com.omarcovelho.common.Bus;
+import br.com.omarcovelho.common.Byte;
+import br.com.omarcovelho.common.Clock;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.jupiter.api.Test;
 
 class RamTest {
 

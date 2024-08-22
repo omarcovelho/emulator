@@ -1,5 +1,9 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.cpu;
 
+import br.com.omarcovelho.common.Bus;
+import br.com.omarcovelho.common.Byte;
+import br.com.omarcovelho.common.Clock;
+import br.com.omarcovelho.common.Register;
 import lombok.Getter;
 import lombok.Setter;
 

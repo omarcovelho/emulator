@@ -1,5 +1,8 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.ram;
 
+import br.com.omarcovelho.common.Bus;
+import br.com.omarcovelho.common.Byte;
+import br.com.omarcovelho.common.ControlledComponent;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

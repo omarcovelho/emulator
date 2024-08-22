@@ -1,4 +1,8 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.cpu;
+
+import br.com.omarcovelho.common.Bus;
+import br.com.omarcovelho.common.Clock;
+import br.com.omarcovelho.common.Register;
 
 public class Cpu {
     private final Register r0;

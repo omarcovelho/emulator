@@ -1,10 +1,15 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.cpu;
 
+import br.com.omarcovelho.common.Bus;
+import br.com.omarcovelho.common.Byte;
+import br.com.omarcovelho.common.Clock;
+import br.com.omarcovelho.common.Register;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AluTest {
 

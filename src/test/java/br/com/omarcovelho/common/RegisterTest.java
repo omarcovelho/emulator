@@ -1,10 +1,9 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.common;
+
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.ArrayMatching.arrayContaining;
-
-import org.junit.jupiter.api.Test;
 
 class RegisterTest {
 

@@ -1,9 +1,10 @@
-package br.com.omarcovelho;
+package br.com.omarcovelho.common;
 
-import java.util.Arrays;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang.ArrayUtils;
+
+import java.util.Arrays;
 
 @NoArgsConstructor
 @EqualsAndHashCode
