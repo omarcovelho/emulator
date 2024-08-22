@@ -1,27 +1,30 @@
 package br.com.omarcovelho.cpu.stepper;
 
-import br.com.omarcovelho.common.Clock;
-import br.com.omarcovelho.common.Clockable;
-import br.com.omarcovelho.common.ComponentsRegistry;
-import br.com.omarcovelho.common.ControlledComponent;
+import br.com.omarcovelho.common.*;
 import br.com.omarcovelho.cpu.Cpu;
 import br.com.omarcovelho.cpu.InstructionStep;
+import br.com.omarcovelho.cpu.alu.RegisterSubscriber;
+import br.com.omarcovelho.cpu.stepper.fetch.ReadInstructionToIr;
+import br.com.omarcovelho.cpu.stepper.fetch.SetMemoryAddressFromIarStep;
+import br.com.omarcovelho.cpu.stepper.fetch.SetNextInstruction;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Stepper implements Clockable {
+public class Stepper implements Clockable, RegisterSubscriber {
 
     private final LinkedList<InstructionStep> steps;
     private final Cpu cpu;
-    private Iterator<InstructionStep> stepsIterator;
-    public Stepper(Clock clock, Cpu cpu) {
+    private int stepIndex = 0;
+    private final Register ir;
+    private final InstructionTranslator instructionTranslator = new InstructionTranslator();
+    public Stepper(Clock clock, Cpu cpu, Register ir) {
         this.cpu = cpu;
         this.steps = initialStateSteps();
         this.subscribe(clock);
-        stepsIterator = this.steps.iterator();
+        this.ir = ir;
+        this.ir.register(this);
     }
 
     private LinkedList<InstructionStep> initialStateSteps() {
@@ -32,20 +35,14 @@ public class Stepper implements Clockable {
         ));
     }
 
-    public void updateSteps(List<InstructionStep> steps) {
-        this.steps.clear();
-        this.steps.addAll(initialStateSteps());
-        this.steps.addAll(steps);
-    }
-
     @Override
     public void preClock() {
-        if (stepsIterator.hasNext()) {
-            InstructionStep step = stepsIterator.next();
+        if (stepIndex < steps.size()) {
+            InstructionStep step = steps.get(stepIndex++);
             System.out.println("Executing " + step.getClass().getSimpleName());
-            step.execute();
+            step.execute(ir);
         } else {
-            stepsIterator = steps.iterator();
+            stepIndex = 0;
         }
     }
 
@@ -54,9 +51,22 @@ public class Stepper implements Clockable {
         cpu.getAlu().setBus1(false);
         ComponentsRegistry.getAll()
                 .forEach(ControlledComponent::clearFlags);
+        ComponentsRegistry.getRegisters()
+                .forEach(ControlledComponent::clearFlags);
     }
 
     public void printState() {
 
+    }
+
+    @Override
+    public void onRegisterChange(Register ir) {
+        this.updateSteps(instructionTranslator.translate(ir.getValue()));
+    }
+
+    private void updateSteps(List<InstructionStep> steps) {
+        this.steps.clear();
+        this.steps.addAll(initialStateSteps());
+        this.steps.addAll(steps);
     }
 }

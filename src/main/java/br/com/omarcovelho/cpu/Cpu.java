@@ -5,6 +5,7 @@ import br.com.omarcovelho.cpu.alu.Alu;
 import br.com.omarcovelho.cpu.stepper.Stepper;
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.Map;
 
 @Getter
@@ -26,15 +27,15 @@ public class Cpu {
         this.alu = new Alu(clock, bus);
         this.iar = new Register(bus, clock, "iar");
         this.ir = new Register(bus, clock, "ir");
-        this.stepper = new Stepper(clock, this);
+        this.stepper = new Stepper(clock, this, ir);
 
         ComponentsRegistry.put(Map.ofEntries(
-            Map.entry(ComponentType.R0, r0),
-            Map.entry(ComponentType.R1, r1),
-            Map.entry(ComponentType.R2, r2),
-            Map.entry(ComponentType.R3, r3),
             Map.entry(ComponentType.IAR, iar),
             Map.entry(ComponentType.IR, ir)
+        ));
+        ComponentsRegistry.setAlu(alu);
+        ComponentsRegistry.setRegisterDecoder(Arrays.asList(
+            r0, r1, r2, r3
         ));
     }
 

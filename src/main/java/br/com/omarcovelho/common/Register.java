@@ -11,7 +11,7 @@ public class Register extends ControlledComponent implements Clockable {
   protected Byte value = new Byte();
   private final Bus bus;
   private final String id;
-  private final List<RegisterSubscriber> watchers = new ArrayList<>();
+  private final List<RegisterSubscriber> listeners = new ArrayList<>();
 
   public Register(Bus bus, Clock clock, String id) {
     this.bus = bus;
@@ -23,7 +23,7 @@ public class Register extends ControlledComponent implements Clockable {
   public void clkSet() {
     if(this.isSet()) {
       doSet();
-      watchers.forEach(RegisterSubscriber::onRegisterChange);
+      listeners.forEach(l -> l.onRegisterChange(this));
     }
   }
 
@@ -47,4 +47,7 @@ public class Register extends ControlledComponent implements Clockable {
     return Integer.toBinaryString(this.value.toInt());
   }
 
+  public void register(RegisterSubscriber subscriber) {
+    this.listeners.add(subscriber);
+  }
 }

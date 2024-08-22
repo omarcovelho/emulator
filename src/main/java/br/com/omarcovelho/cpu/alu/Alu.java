@@ -55,7 +55,7 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     }
 
     @Override
-    public void onRegisterChange() {
+    public void onRegisterChange(Register register) {
         operation.execute(this);
     }
 }
