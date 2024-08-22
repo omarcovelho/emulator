@@ -21,6 +21,7 @@ public class Bus {
   }
 
   public void put(Byte value) {
+    System.out.println("Data put on bus [" + this.id + "]: " + value);
     this.value = Byte.of(value);
     watchers.forEach(BusSubscriber::onBusChange);
   }

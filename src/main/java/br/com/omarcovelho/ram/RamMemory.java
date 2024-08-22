@@ -11,6 +11,7 @@ public class RamMemory extends ControlledComponent {
     public RamMemory(Bus bus) {
         this.bus = bus;
         this.values[0] = Byte.of(0b00001111);
+        this.values[1] = Byte.of(0b10001111);
     }
 
     public void set(RamAddress address) {

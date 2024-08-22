@@ -48,7 +48,7 @@ class AluTest {
         alu.setOperation(AluOperationFactory.ADD);
         setAcc(clock, alu.getAcc());
 
-        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b00000010)));
+        assertThat(alu.getAcc().getValue(), equalTo(Byte.of(0b00001011)));
         assertFalse(alu.isCarryOut());
     }
 

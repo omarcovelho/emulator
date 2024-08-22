@@ -2,6 +2,7 @@ package br.com.omarcovelho.cpu;
 
 import br.com.omarcovelho.common.*;
 import br.com.omarcovelho.cpu.alu.Alu;
+import br.com.omarcovelho.cpu.stepper.Stepper;
 import lombok.Getter;
 
 import java.util.Map;
@@ -41,7 +42,8 @@ public class Cpu {
         StringBuffer buffer = new StringBuffer();
         buffer.append(String.format("R0: %s\tR1: %s\t", r0, r1));
         buffer.append(String.format("R2: %s\tR3: %s\t", r2, r3));
-        buffer.append(String.format("IAR: %s\tIR: %s", iar, ir));
+        buffer.append(String.format("IAR: %s\tIR: %s\t", iar, ir));
+        buffer.append(String.format("ACC: %s", alu.getAcc()));
         System.out.println("Registers");
         System.out.println(buffer);
         System.out.println("Stepper");

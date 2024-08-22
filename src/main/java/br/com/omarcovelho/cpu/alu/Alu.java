@@ -26,10 +26,10 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     private AluOperation operation = AluOperationFactory.getOperation(0b000);
 
     public Alu(Clock clock, Bus bus) {
-        this.tmp = new Register(bus, clock, "tmp");
         this.accBus = new Bus("accBus");
-        this.acc = new Register(accBus, clock, "acc");
         this.commonBus = bus;
+        this.acc = new DualBusRegister(bus, clock, "acc", accBus);
+        this.tmp = new Register(bus, clock, "tmp");
 
         this.commonBus.subscribe(this);
 
