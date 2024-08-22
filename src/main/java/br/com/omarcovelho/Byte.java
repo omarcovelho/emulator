@@ -14,6 +14,10 @@ public class Byte {
     this.bits = Arrays.copyOf(flags, flags.length);
   }
 
+  public static Byte of(Byte value) {
+    return new Byte(value.getBits());
+  }
+
   public boolean[] getBits() {
     return Arrays.copyOf(bits, bits.length);
   }
