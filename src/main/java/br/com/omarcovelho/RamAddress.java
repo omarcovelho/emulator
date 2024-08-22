@@ -2,8 +2,10 @@ package br.com.omarcovelho;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.sound.midi.ControllerEventListener;
+
 @RequiredArgsConstructor
-public class RamAddress {
+public class RamAddress extends ControlledComponent {
     private Byte value = new Byte();
     private final Bus bus;
 

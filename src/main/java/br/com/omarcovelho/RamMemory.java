@@ -3,7 +3,7 @@ package br.com.omarcovelho;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RamMemory {
+public class RamMemory extends ControlledComponent {
     private final Byte[] values = new Byte[256];
     private final Bus bus;
 

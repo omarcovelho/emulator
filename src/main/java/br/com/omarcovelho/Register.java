@@ -4,16 +4,31 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-public class Register {
+public class Register extends ControlledComponent implements Clockeable {
   private Byte value = new Byte();
   private final Bus bus;
 
-  public void set() {
-    this.value = Byte.of(bus.getValue());
+  public Register(Bus bus, Clock clock) {
+    this.bus = bus;
+    this.subscribe(clock);
   }
 
+  @Override
+  public void set() {
+    if(this.isSet()) {
+      this.value = Byte.of(bus.getValue());
+    }
+  }
+
+  @Override
+  public void subscribe(Clock clock) {
+    clock.register(this);
+  }
+
+  @Override
   public void enable() {
-    this.bus.put(this.value);
+    if(this.isEnable()) {
+      this.bus.put(this.value);
+    }
   }
 }
