@@ -48,6 +48,5 @@ public class Cpu {
         System.out.println("Registers");
         System.out.println(buffer);
         System.out.println("Stepper");
-        stepper.printState();
     }
 }

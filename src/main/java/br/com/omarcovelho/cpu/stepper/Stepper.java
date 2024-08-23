@@ -7,6 +7,7 @@ import br.com.omarcovelho.cpu.alu.RegisterSubscriber;
 import br.com.omarcovelho.cpu.stepper.fetch.ReadInstructionToIr;
 import br.com.omarcovelho.cpu.stepper.fetch.SetMemoryAddressFromIarStep;
 import br.com.omarcovelho.cpu.stepper.fetch.SetNextInstruction;
+import br.com.omarcovelho.cpu.stepper.instruction.InstructionTranslator;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -39,7 +40,7 @@ public class Stepper implements Clockable, RegisterSubscriber {
     public void preClock() {
         if (stepIndex < steps.size()) {
             InstructionStep step = steps.get(stepIndex++);
-            System.out.println("Executing " + step.getClass().getSimpleName());
+            System.out.println("Executing " + step.getClass().getSimpleName() + "\n");
             step.execute(ir);
         } else {
             stepIndex = 0;
@@ -53,10 +54,6 @@ public class Stepper implements Clockable, RegisterSubscriber {
                 .forEach(ControlledComponent::clearFlags);
         ComponentsRegistry.getRegisters()
                 .forEach(ControlledComponent::clearFlags);
-    }
-
-    public void printState() {
-
     }
 
     @Override

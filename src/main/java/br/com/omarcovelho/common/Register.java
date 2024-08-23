@@ -44,7 +44,7 @@ public class Register extends ControlledComponent implements Clockable {
 
   @Override
   public String toString() {
-    return Integer.toBinaryString(this.value.toInt());
+    return this.value.toString();
   }
 
   public void register(RegisterSubscriber subscriber) {

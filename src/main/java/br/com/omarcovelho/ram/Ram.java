@@ -1,5 +1,6 @@
 package br.com.omarcovelho.ram;
 
+import br.com.omarcovelho.common.Byte;
 import br.com.omarcovelho.common.*;
 import lombok.Getter;
 
@@ -10,9 +11,9 @@ public class Ram extends ControlledComponent implements Clockable {
   private final RamAddress address;
   private final RamMemory memory;
 
-  public Ram(Bus bus, Clock clock) {
+  public Ram(Bus bus, Clock clock, Byte[] program) {
     this.address = new RamAddress(bus);
-    this.memory = new RamMemory(bus);
+    this.memory = new RamMemory(bus, program);
     this.subscribe(clock);
 
     ComponentsRegistry.put(Map.ofEntries(

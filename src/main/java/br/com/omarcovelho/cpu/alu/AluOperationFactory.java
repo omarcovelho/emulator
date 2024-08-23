@@ -20,8 +20,8 @@ public class AluOperationFactory {
 
     private static final List<AluOperation> operations = Arrays.asList(
         new Add(),
-        new ShiftRight(),
         new ShiftLeft(),
+        new ShiftRight(),
         new Not(),
         new And(),
         new Or(),
