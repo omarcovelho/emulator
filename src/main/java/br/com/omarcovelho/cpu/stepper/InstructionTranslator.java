@@ -17,8 +17,8 @@ public class InstructionTranslator {
         populateInstructions();
     }
 
-    private void populateInstructions() {
-        this.instructionStepsMap[0b0010] = new InstructionStep[]{
+    private void populateInstructions() {//TODO: extract steps to class
+        this.instructionStepsMap[0b0010] = new InstructionStep[]{ //data instruction
             (ir) ->  {
                 ComponentsRegistry.getAlu().setBus1(true);
                 ComponentsRegistry.get(ComponentType.IAR).setEnable(true);
@@ -34,6 +34,30 @@ public class InstructionTranslator {
                 ComponentsRegistry.get(ComponentType.ACC).setEnable(true);
                 ComponentsRegistry.get(ComponentType.IAR).setSet(true);
             }
+        };
+        this.instructionStepsMap[0b0000] = new InstructionStep[] { //load instruction
+                (ir) -> {
+                    int addressRegister = ir.getValue().toInt() & 0b00001100;
+                    ComponentsRegistry.resolveRegister(addressRegister).setEnable(true);
+                    ComponentsRegistry.get(ComponentType.MAR).setSet(true);
+                },
+                (ir) -> {
+                    int targetRegister = ir.getValue().toInt() & 0b000000011;
+                    ComponentsRegistry.get(ComponentType.RAM).setEnable(true);
+                    ComponentsRegistry.resolveRegister(targetRegister).setSet(true);
+                }
+        };
+        this.instructionStepsMap[0b0001] = new InstructionStep[] { //store instruction
+                (ir) -> {
+                    int addressRegister = ir.getValue().toInt() & 0b00001100;
+                    ComponentsRegistry.resolveRegister(addressRegister).setEnable(true);
+                    ComponentsRegistry.get(ComponentType.MAR).setSet(true);
+                },
+                (ir) -> {
+                    int targetRegister = ir.getValue().toInt() & 0b000000011;
+                    ComponentsRegistry.resolveRegister(targetRegister).setEnable(true);
+                    ComponentsRegistry.get(ComponentType.RAM).setSet(true);
+                }
         };
     }
 
