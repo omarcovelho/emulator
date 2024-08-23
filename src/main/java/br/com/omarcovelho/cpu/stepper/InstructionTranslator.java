@@ -18,7 +18,7 @@ public class InstructionTranslator {
     }
 
     private void populateInstructions() {//TODO: extract steps to class
-        this.instructionStepsMap[0b0010] = new InstructionStep[]{ //data instruction
+        this.instructionStepsMap[0b0010] = new InstructionStep[]{ //data instruction  (DATA)
             (ir) ->  {
                 ComponentsRegistry.getAlu().setBus1(true);
                 ComponentsRegistry.get(ComponentType.IAR).setEnable(true);
@@ -35,7 +35,7 @@ public class InstructionTranslator {
                 ComponentsRegistry.get(ComponentType.IAR).setSet(true);
             }
         };
-        this.instructionStepsMap[0b0000] = new InstructionStep[] { //load instruction
+        this.instructionStepsMap[0b0000] = new InstructionStep[] { //load instruction (LD)
                 (ir) -> {
                     int addressRegister = ir.getValue().toInt() & 0b00001100;
                     ComponentsRegistry.resolveRegister(addressRegister).setEnable(true);
@@ -47,7 +47,7 @@ public class InstructionTranslator {
                     ComponentsRegistry.resolveRegister(targetRegister).setSet(true);
                 }
         };
-        this.instructionStepsMap[0b0001] = new InstructionStep[] { //store instruction
+        this.instructionStepsMap[0b0001] = new InstructionStep[] { //store instruction (ST)
                 (ir) -> {
                     int addressRegister = ir.getValue().toInt() & 0b00001100;
                     ComponentsRegistry.resolveRegister(addressRegister).setEnable(true);
@@ -57,6 +57,23 @@ public class InstructionTranslator {
                     int targetRegister = ir.getValue().toInt() & 0b000000011;
                     ComponentsRegistry.resolveRegister(targetRegister).setEnable(true);
                     ComponentsRegistry.get(ComponentType.RAM).setSet(true);
+                }
+        };
+        this.instructionStepsMap[0b0011] = new InstructionStep[] { //jump register (JMPR)
+                (ir) -> {
+                    int addressRegister = ir.getValue().toInt() & 0b00000011;
+                    ComponentsRegistry.resolveRegister(addressRegister).setEnable(true);
+                    ComponentsRegistry.get(ComponentType.IAR).setSet(true);
+                }
+        };
+        this.instructionStepsMap[0b0100] = new InstructionStep[] { //jump data (JMP)
+                (ir) -> {
+                    ComponentsRegistry.get(ComponentType.IAR).setEnable(true);
+                    ComponentsRegistry.get(ComponentType.MAR).setSet(true);
+                },
+                (ir) -> {
+                    ComponentsRegistry.get(ComponentType.RAM).setEnable(true);
+                    ComponentsRegistry.get(ComponentType.IAR).setSet(true);
                 }
         };
     }
