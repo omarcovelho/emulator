@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RamAddress extends ControlledComponent {
-    private Byte value = new Byte();
+    private Byte value = Byte.of(0);
     private final ByteBus bus;
 
     public void set() {

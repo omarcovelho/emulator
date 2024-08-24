@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 public class Register extends ControlledComponent implements Clockable {
-  protected Byte value = new Byte();
+  protected Byte value = Byte.of(0);
   private final ByteBus bus;
   private final String id;
   private final List<RegisterSubscriber> listeners = new ArrayList<>();

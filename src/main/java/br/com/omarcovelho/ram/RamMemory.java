@@ -11,7 +11,7 @@ public class RamMemory extends ControlledComponent {
     public RamMemory(ByteBus bus, Byte[] program) {
         this.bus = bus;
         for(int i = 0; i < values.length; i++) {
-            values[i] = program[i] != null ? program[i] : new Byte();
+            values[i] = program[i] != null ? program[i] : Byte.of(0);
         }
     }
 

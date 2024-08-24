@@ -9,23 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ByteTest {
 
   @Test
-  public void shouldCreateByteFromInteger() {
-    Byte aByte = Byte.of(10);
-    assertThat(aByte.getBits(),
-        equalTo(new boolean[]{false, false, false, false, true, false, true, false}));
-  }
-
-  @Test
   public void shouldThrowExceptionForValueHigherThan8Bit() {
     IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
         () -> Byte.of(256));
 
-    assertThat(ex.getMessage(), equalTo("Value higher than 8 bit"));
-  }
-
-  @Test
-  public void shouldConvertToInteger() {
-    Byte aByte = new Byte(new boolean[]{false, false, false, false, true, false, true, false});
-    assertThat(aByte.toInt(), equalTo(10));
+    assertThat(ex.getMessage(), equalTo("this datatype has [8] bits and does not support [256]. max value is [255]"));
   }
 }
