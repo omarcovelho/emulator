@@ -1,9 +1,9 @@
 package br.com.omarcovelho.cpu;
 
-import br.com.omarcovelho.common.Register;
+import br.com.omarcovelho.common.ByteRegister;
 
 @FunctionalInterface
 public interface InstructionStep {
 
-    void execute(Register ir);
+    void execute(ByteRegister ir);
 }

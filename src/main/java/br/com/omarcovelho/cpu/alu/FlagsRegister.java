@@ -2,13 +2,13 @@ package br.com.omarcovelho.cpu.alu;
 
 import br.com.omarcovelho.common.Clock;
 import br.com.omarcovelho.common.Clockable;
-import br.com.omarcovelho.common.ControlledComponent;
 import br.com.omarcovelho.common.FourBitBus;
+import br.com.omarcovelho.common.NibbleRegister;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class FlagsRegister extends ControlledComponent implements Clockable {
+public class FlagsRegister extends NibbleRegister implements Clockable {
     @Setter
     private boolean carryOut;
     @Setter
@@ -18,10 +18,8 @@ public class FlagsRegister extends ControlledComponent implements Clockable {
     @Setter
     private boolean zero;
 
-    private final FourBitBus flagsBus;
-
     public FlagsRegister(FourBitBus flagsBus, Clock clock) {
-        this.flagsBus = flagsBus;
+        super(flagsBus, "flagsRegister", clock);
         this.subscribe(clock);
     }
 
@@ -33,9 +31,9 @@ public class FlagsRegister extends ControlledComponent implements Clockable {
     }
 
     protected void doSet() {
-        this.carryOut = (flagsBus.getValue() & 0b1000) > 0;
-        this.aLarger = (flagsBus.getValue() & 0b0100) > 0;
-        this.equal = (flagsBus.getValue() & 0b0010) > 0;
-        this.zero = (flagsBus.getValue() & 0b0001) > 0;
+        this.carryOut = (getBus().getValue() & 0b1000) > 0;
+        this.aLarger = (getBus().getValue() & 0b0100) > 0;
+        this.equal = (getBus().getValue() & 0b0010) > 0;
+        this.zero = (getBus().getValue() & 0b0001) > 0;
     }
 }

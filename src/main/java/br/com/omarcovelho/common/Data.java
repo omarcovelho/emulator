@@ -1,7 +1,5 @@
 package br.com.omarcovelho.common;
 
-import org.apache.commons.lang.ArrayUtils;
-
 public abstract class Data {
 
     private final int value;
@@ -17,5 +15,10 @@ public abstract class Data {
 
     public int toInt(){
         return this.value;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%8s", Integer.toBinaryString(value)).replace(' ', '0');
     }
 }

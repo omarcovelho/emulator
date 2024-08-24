@@ -9,7 +9,7 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ComponentsRegistry {
     private final static Map<ComponentType, ControlledComponent> allComponents = new HashMap<>();
-    private final static List<Register> registerDecoder = new ArrayList<>();
+    private final static List<ByteRegister> registerDecoder = new ArrayList<>();
 
     private static Alu alu;
     public static void put(Map<ComponentType, ControlledComponent> components) {
@@ -21,7 +21,7 @@ public class ComponentsRegistry {
                 .orElseThrow(() -> new IllegalArgumentException("component " + component.name() + " not found."));
     }
 
-    public static Register resolveRegister(int address) {
+    public static ByteRegister resolveRegister(int address) {
         return registerDecoder.get(address);
     }
 
@@ -33,7 +33,7 @@ public class ComponentsRegistry {
         return alu;
     }
 
-    public static void setRegisterDecoder(List<Register> registers) {
+    public static void setRegisterDecoder(List<ByteRegister> registers) {
         registerDecoder.clear();
         registerDecoder.addAll(registers);
     }

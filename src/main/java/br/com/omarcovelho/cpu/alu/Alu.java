@@ -8,8 +8,8 @@ import java.util.Map;
 
 @Getter
 public class Alu implements BusSubscriber, RegisterSubscriber {
-    private final Register tmp;
-    private final Register acc;
+    private final ByteRegister tmp;
+    private final ByteRegister acc;
     @Setter
     private boolean carryIn;
     private boolean bus1;
@@ -22,8 +22,8 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     public Alu(Clock clock, ByteBus bus) {
         this.accBus = new ByteBus("accBus");
         this.commonBus = bus;
-        this.acc = new DualBusRegister(bus, clock, "acc", accBus);
-        this.tmp = new Register(bus, clock, "tmp");
+        this.acc = new DualBusByteRegister(bus, clock, "acc", accBus);
+        this.tmp = new ByteRegister(bus, clock, "tmp");
         this.flagsBus = new FourBitBus("flags");
         this.flagsRegister = new FlagsRegister(flagsBus, clock);
 
@@ -51,7 +51,7 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     }
 
     @Override
-    public void onRegisterChange(Register register) {
+    public void onRegisterChange(AbstractRegister register) {
         operation.execute(this);
     }
 }

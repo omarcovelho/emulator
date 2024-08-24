@@ -18,9 +18,9 @@ public class Stepper implements Clockable, RegisterSubscriber {
     private final LinkedList<InstructionStep> steps;
     private final Cpu cpu;
     private int stepIndex = 0;
-    private final Register ir;
+    private final ByteRegister ir;
     private final InstructionTranslator instructionTranslator = new InstructionTranslator();
-    public Stepper(Clock clock, Cpu cpu, Register ir) {
+    public Stepper(Clock clock, Cpu cpu, ByteRegister ir) {
         this.cpu = cpu;
         this.steps = initialStateSteps();
         this.subscribe(clock);
@@ -57,7 +57,7 @@ public class Stepper implements Clockable, RegisterSubscriber {
     }
 
     @Override
-    public void onRegisterChange(Register ir) {
+    public void onRegisterChange(AbstractRegister ir) {
         this.updateSteps(instructionTranslator.translate(ir.getValue()));
     }
 

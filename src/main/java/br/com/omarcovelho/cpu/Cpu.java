@@ -10,23 +10,23 @@ import java.util.Map;
 
 @Getter
 public class Cpu {
-    private final Register r0;
-    private final Register r1;
-    private final Register r2;
-    private final Register r3;
+    private final ByteRegister r0;
+    private final ByteRegister r1;
+    private final ByteRegister r2;
+    private final ByteRegister r3;
     private final Alu alu;
-    private final Register iar; //Instruction Address Register
-    private final Register ir; //Instruction Register
+    private final ByteRegister iar; //Instruction Address Register
+    private final ByteRegister ir; //Instruction Register
     private final Stepper stepper;
 
     public Cpu(ByteBus bus, Clock clock) {
-        this.r0 = new Register(bus, clock, "r0");
-        this.r1 = new Register(bus, clock, "r1");
-        this.r2 = new Register(bus, clock, "r2");
-        this.r3 = new Register(bus, clock, "r3");
+        this.r0 = new ByteRegister(bus, clock, "r0");
+        this.r1 = new ByteRegister(bus, clock, "r1");
+        this.r2 = new ByteRegister(bus, clock, "r2");
+        this.r3 = new ByteRegister(bus, clock, "r3");
         this.alu = new Alu(clock, bus);
-        this.iar = new Register(bus, clock, "iar");
-        this.ir = new Register(bus, clock, "ir");
+        this.iar = new ByteRegister(bus, clock, "iar");
+        this.ir = new ByteRegister(bus, clock, "ir");
         this.stepper = new Stepper(clock, this, ir);
 
         ComponentsRegistry.put(Map.ofEntries(

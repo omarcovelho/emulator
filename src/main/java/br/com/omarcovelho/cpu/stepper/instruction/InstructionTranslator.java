@@ -1,6 +1,6 @@
 package br.com.omarcovelho.cpu.stepper.instruction;
 
-import br.com.omarcovelho.common.Byte;
+import br.com.omarcovelho.common.Data;
 import br.com.omarcovelho.cpu.InstructionStep;
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public class InstructionTranslator {
     }
 
 
-    public List<InstructionStep> translate(Byte instruction) {
+    public List<InstructionStep> translate(Data instruction) {
         return instructionStepsMap.stream().filter(i -> i.supports(instruction))
                 .findFirst()
                 .map(i -> i.getSteps(instruction))

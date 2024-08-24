@@ -2,8 +2,8 @@ package br.com.omarcovelho.cpu;
 
 import br.com.omarcovelho.common.Byte;
 import br.com.omarcovelho.common.ByteBus;
+import br.com.omarcovelho.common.ByteRegister;
 import br.com.omarcovelho.common.Clock;
-import br.com.omarcovelho.common.Register;
 import br.com.omarcovelho.cpu.alu.Alu;
 import br.com.omarcovelho.cpu.alu.AluOperationFactory;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ class AluTest {
         register.getFlagsRegister().setSet(false);
     }
 
-    private static void setValueOnRegister(Clock clock, Register register) {
+    private static void setValueOnRegister(Clock clock, ByteRegister register) {
         register.setSet(true);
         clock.tick();
         register.setSet(false);

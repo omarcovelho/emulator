@@ -1,8 +1,8 @@
 package br.com.omarcovelho.cpu.alu;
 
-import br.com.omarcovelho.common.Register;
+import br.com.omarcovelho.common.AbstractRegister;
 
 public interface RegisterSubscriber {
 
-    void onRegisterChange(Register register);
+    void onRegisterChange(AbstractRegister register);
 }

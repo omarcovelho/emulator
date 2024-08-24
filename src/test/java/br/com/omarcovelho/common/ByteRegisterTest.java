@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-class RegisterTest {
+class ByteRegisterTest {
 
   @Test
   public void shouldStartWithAllZeros() {
-    Register register = new Register(new ByteBus("commonBus"), new Clock(), "register");
+    ByteRegister register = new ByteRegister(new ByteBus("commonBus"), new Clock(), "register");
     assertThat(register.getValue(), equalTo(Byte.of(0)));
   }
 
@@ -17,7 +17,7 @@ class RegisterTest {
   public void shouldSetValueFromBus() {
     Clock clock = new Clock();
     ByteBus bus = new ByteBus("commonBu");
-    Register register = new Register(bus, clock, "register");
+    ByteRegister register = new ByteRegister(bus, clock, "register");
 
     bus.put(255);
     register.setSet(true);
@@ -31,7 +31,7 @@ class RegisterTest {
   public void shouldReadValueToBus() {
     Clock clock = new Clock();
     ByteBus bus = new ByteBus("commonBus");
-    Register register = new Register(bus, clock, "register");
+    ByteRegister register = new ByteRegister(bus, clock, "register");
 
     bus.put(255);
 
