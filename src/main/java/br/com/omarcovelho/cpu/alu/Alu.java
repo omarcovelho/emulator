@@ -13,14 +13,14 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     @Setter
     private boolean carryIn;
     private boolean bus1;
-    private final Bus accBus;
-    private final Bus commonBus;
+    private final ByteBus accBus;
+    private final ByteBus commonBus;
     private AluOperation operation = AluOperationFactory.getOperation(0b000);
     private final FourBitBus flagsBus;
     private final FlagsRegister flagsRegister;
 
-    public Alu(Clock clock, Bus bus) {
-        this.accBus = new Bus("accBus");
+    public Alu(Clock clock, ByteBus bus) {
+        this.accBus = new ByteBus("accBus");
         this.commonBus = bus;
         this.acc = new DualBusRegister(bus, clock, "acc", accBus);
         this.tmp = new Register(bus, clock, "tmp");

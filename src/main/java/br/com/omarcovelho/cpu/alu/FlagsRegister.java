@@ -33,9 +33,9 @@ public class FlagsRegister extends ControlledComponent implements Clockable {
     }
 
     protected void doSet() {
-        this.carryOut = (flagsBus.getData() & 0b1000) > 0;
-        this.aLarger = (flagsBus.getData() & 0b0100) > 0;
-        this.equal = (flagsBus.getData() & 0b0010) > 0;
-        this.zero = (flagsBus.getData() & 0b0001) > 0;
+        this.carryOut = (flagsBus.getValue() & 0b1000) > 0;
+        this.aLarger = (flagsBus.getValue() & 0b0100) > 0;
+        this.equal = (flagsBus.getValue() & 0b0010) > 0;
+        this.zero = (flagsBus.getValue() & 0b0001) > 0;
     }
 }

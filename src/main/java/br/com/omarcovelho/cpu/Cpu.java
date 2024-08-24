@@ -19,7 +19,7 @@ public class Cpu {
     private final Register ir; //Instruction Register
     private final Stepper stepper;
 
-    public Cpu(Bus bus, Clock clock) {
+    public Cpu(ByteBus bus, Clock clock) {
         this.r0 = new Register(bus, clock, "r0");
         this.r1 = new Register(bus, clock, "r1");
         this.r2 = new Register(bus, clock, "r2");

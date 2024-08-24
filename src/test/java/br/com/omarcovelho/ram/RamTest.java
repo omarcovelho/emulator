@@ -1,7 +1,7 @@
 package br.com.omarcovelho.ram;
 
-import br.com.omarcovelho.common.Bus;
 import br.com.omarcovelho.common.Byte;
+import br.com.omarcovelho.common.ByteBus;
 import br.com.omarcovelho.common.Clock;
 import org.junit.jupiter.api.Test;
 
@@ -13,11 +13,11 @@ class RamTest {
   @Test
   public void shouldSetAddress() {
     Clock clock = new Clock();
-    Bus bus = new Bus("commonBus");
+    ByteBus bus = new ByteBus("commonBus");
     Ram ram = new Ram(bus, clock, new Byte[256]);
     ram.subscribe(clock);
 
-    bus.put(Byte.of(2));
+    bus.put(2);
     ram.setAddress(true);
     clock.tick();
 
@@ -28,24 +28,24 @@ class RamTest {
   public void shouldSetMemoryValue() {
     Clock clock = new Clock();
 
-    Bus bus = new Bus("commonBus");
+    ByteBus bus = new ByteBus("commonBus");
     Ram ram = new Ram(bus, clock, new Byte[256]);
 
-    bus.put(Byte.of(2));
+    bus.put(2);
     ram.setAddress(true);
     clock.tick();
     ram.setAddress(false);
 
-    bus.put(Byte.of(255));
+    bus.put(255);
     ram.setMemory(true);
     clock.tick();
     ram.setMemory(false);
 
-    bus.put(Byte.of(0));
+    bus.put(0);
     ram.setMemoryEnable(true);
     clock.tick();
 
-    assertThat(bus.getValue(), equalTo(Byte.of(255)));
+    assertThat(bus.getValue(), equalTo(255));
   }
 
 }

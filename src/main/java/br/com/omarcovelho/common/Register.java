@@ -9,11 +9,11 @@ import java.util.List;
 @Getter
 public class Register extends ControlledComponent implements Clockable {
   protected Byte value = new Byte();
-  private final Bus bus;
+  private final ByteBus bus;
   private final String id;
   private final List<RegisterSubscriber> listeners = new ArrayList<>();
 
-  public Register(Bus bus, Clock clock, String id) {
+  public Register(ByteBus bus, Clock clock, String id) {
     this.bus = bus;
     this.id = id;
     this.subscribe(clock);
@@ -39,7 +39,7 @@ public class Register extends ControlledComponent implements Clockable {
   }
 
   protected void doEnable() {
-    this.bus.put(this.value);
+    this.bus.put(this.value.toInt());
   }
 
   @Override

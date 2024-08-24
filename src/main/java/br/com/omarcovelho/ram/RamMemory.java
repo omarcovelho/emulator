@@ -1,14 +1,14 @@
 package br.com.omarcovelho.ram;
 
-import br.com.omarcovelho.common.Bus;
 import br.com.omarcovelho.common.Byte;
+import br.com.omarcovelho.common.ByteBus;
 import br.com.omarcovelho.common.ControlledComponent;
 
 public class RamMemory extends ControlledComponent {
     private final Byte[] values = new Byte[256];
-    private final Bus bus;
+    private final ByteBus bus;
 
-    public RamMemory(Bus bus, Byte[] program) {
+    public RamMemory(ByteBus bus, Byte[] program) {
         this.bus = bus;
         for(int i = 0; i < values.length; i++) {
             values[i] = program[i] != null ? program[i] : new Byte();
@@ -20,7 +20,7 @@ public class RamMemory extends ControlledComponent {
     }
 
     public void enable(RamAddress address) {
-        this.bus.put(getRamValue(address));
+        this.bus.put(getRamValue(address).toInt());
     }
 
     private Byte getRamValue(RamAddress address) {

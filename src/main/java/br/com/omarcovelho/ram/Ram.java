@@ -11,7 +11,7 @@ public class Ram extends ControlledComponent implements Clockable {
   private final RamAddress address;
   private final RamMemory memory;
 
-  public Ram(Bus bus, Clock clock, Byte[] program) {
+  public Ram(ByteBus bus, Clock clock, Byte[] program) {
     this.address = new RamAddress(bus);
     this.memory = new RamMemory(bus, program);
     this.subscribe(clock);

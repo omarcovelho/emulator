@@ -1,10 +1,8 @@
 package br.com.omarcovelho.cpu.alu;
 
-import br.com.omarcovelho.common.Byte;
-
 public class Or implements AluOperation {
     @Override
     public void execute(Alu alu) {
-        alu.getAccBus().put(Byte.of(alu.getCommonBus().getValue().toInt() | alu.getTmp().getValue().toInt()));
+        alu.getAccBus().put(alu.getCommonBus().getValue() | alu.getTmp().getValue().toInt());
     }
 }
