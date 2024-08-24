@@ -14,7 +14,7 @@ class RamTest {
   public void shouldSetAddress() {
     Clock clock = new Clock();
     Bus bus = new Bus("commonBus");
-    Ram ram = new Ram(bus, clock, new Byte[0]);
+    Ram ram = new Ram(bus, clock, new Byte[256]);
     ram.subscribe(clock);
 
     bus.put(Byte.of(2));
@@ -29,7 +29,7 @@ class RamTest {
     Clock clock = new Clock();
 
     Bus bus = new Bus("commonBus");
-    Ram ram = new Ram(bus, clock, new Byte[0]);
+    Ram ram = new Ram(bus, clock, new Byte[256]);
 
     bus.put(Byte.of(2));
     ram.setAddress(true);

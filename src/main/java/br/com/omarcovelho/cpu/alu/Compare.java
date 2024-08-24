@@ -7,7 +7,8 @@ public class Compare implements AluOperation {
     @Override
     public void execute(Alu alu) {
         alu.getAccBus().put(Byte.of(alu.getCommonBus().getValue().toInt() ^ alu.getTmp().getValue().toInt()));
-        alu.setALarger(alu.getCommonBus().getValue().toInt() > alu.getTmp().getValue().toInt());
-        alu.setEqual(alu.getCommonBus().getValue().equals(alu.getTmp().getValue()));
+        int isALarger = (alu.getCommonBus().getValue().toInt() > alu.getTmp().getValue().toInt()) ? A_LARGER_CODE : 0;
+        int isEqual = alu.getCommonBus().getValue().equals(alu.getTmp().getValue()) ? EQUAL_CODE : 0;
+        alu.getFlagsBus().put(isALarger | isEqual);
     }
 }

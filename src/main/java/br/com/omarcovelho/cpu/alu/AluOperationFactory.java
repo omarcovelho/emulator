@@ -10,8 +10,8 @@ import java.util.List;
 public class AluOperationFactory {
 
     public static final int ADD = 0b000;
-    public static final int SHR = 0b001;
-    public static final int SHL = 0b010;
+    public static final int SHL = 0b001;
+    public static final int SHR = 0b010;
     public static final int NOT = 0b011;
     public static final int AND = 0b100;
     public static final int OR = 0b101;
