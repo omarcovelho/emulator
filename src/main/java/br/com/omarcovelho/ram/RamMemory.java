@@ -20,7 +20,7 @@ public class RamMemory extends ControlledComponent {
     }
 
     public void enable(RamAddress address) {
-        this.bus.put(getRamValue(address).toInt());
+        this.bus.put(getRamValue(address));
     }
 
     private Byte getRamValue(RamAddress address) {

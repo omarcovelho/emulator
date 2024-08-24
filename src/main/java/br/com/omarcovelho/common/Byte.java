@@ -1,10 +1,6 @@
 package br.com.omarcovelho.common;
 
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.apache.commons.lang.ArrayUtils;
-
-import java.util.Arrays;
 
 @EqualsAndHashCode
 public class Byte extends Data {
@@ -18,6 +14,10 @@ public class Byte extends Data {
   }
 
   public static Byte of(Byte value) {
+    return new Byte(value.toInt());
+  }
+
+  public static Byte of(Data value) {
     return new Byte(value.toInt());
   }
 }

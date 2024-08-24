@@ -31,9 +31,9 @@ public class FlagsRegister extends NibbleRegister implements Clockable {
     }
 
     protected void doSet() {
-        this.carryOut = (getBus().getValue() & 0b1000) > 0;
-        this.aLarger = (getBus().getValue() & 0b0100) > 0;
-        this.equal = (getBus().getValue() & 0b0010) > 0;
-        this.zero = (getBus().getValue() & 0b0001) > 0;
+        this.carryOut = (getBus().getValue().toInt() & 0b1000) > 0;
+        this.aLarger = (getBus().getValue().toInt() & 0b0100) > 0;
+        this.equal = (getBus().getValue().toInt() & 0b0010) > 0;
+        this.zero = (getBus().getValue().toInt() & 0b0001) > 0;
     }
 }

@@ -11,6 +11,6 @@ public class DualBusByteRegister extends ByteRegister {
 
     @Override
     protected void doSet() {
-        this.value = Byte.of(additionalBus.getValue());
+        this.value = additionalBus.getValue();
     }
 }

@@ -17,7 +17,7 @@ class RamTest {
     Ram ram = new Ram(bus, clock, new Byte[256]);
     ram.subscribe(clock);
 
-    bus.put(2);
+    bus.put(Byte.of(2));
     ram.setAddress(true);
     clock.tick();
 
@@ -31,21 +31,21 @@ class RamTest {
     ByteBus bus = new ByteBus("commonBus");
     Ram ram = new Ram(bus, clock, new Byte[256]);
 
-    bus.put(2);
+    bus.put(Byte.of(2));
     ram.setAddress(true);
     clock.tick();
     ram.setAddress(false);
 
-    bus.put(255);
+    bus.put(Byte.of(255));
     ram.setMemory(true);
     clock.tick();
     ram.setMemory(false);
 
-    bus.put(0);
+    bus.put(Byte.of(0));
     ram.setMemoryEnable(true);
     clock.tick();
 
-    assertThat(bus.getValue(), equalTo(255));
+    assertThat(bus.getValue(), equalTo(Byte.of(255)));
   }
 
 }

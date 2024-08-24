@@ -11,7 +11,7 @@ class FourBitBusTest {
     @Test
     public void shouldValidateMaxValue() {
         FourBitBus bus = new FourBitBus("bus");
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> bus.put(255));
-        assertThat(ex.getMessage(), equalTo("this bus has only [4] bits and does not support [255], max value is [16]"));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> bus.put(Byte.of(255)));
+        assertThat(ex.getMessage(), equalTo("this bus has only [4] bits and does not support [11111111], max value is [1111]"));
     }
 }

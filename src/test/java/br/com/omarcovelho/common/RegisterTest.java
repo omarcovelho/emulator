@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-class ByteRegisterTest {
+class RegisterTest {
 
   @Test
   public void shouldStartWithAllZeros() {
@@ -19,12 +19,12 @@ class ByteRegisterTest {
     ByteBus bus = new ByteBus("commonBu");
     ByteRegister register = new ByteRegister(bus, clock, "register");
 
-    bus.put(255);
+    bus.put(Byte.of(255));
     register.setSet(true);
     clock.tick();
 
     assertThat(register.getValue(), equalTo(Byte.of(255)));
-    assertThat(bus.getValue(), equalTo(255));
+    assertThat(bus.getValue(), equalTo(Byte.of(255)));
   }
 
   @Test
@@ -33,12 +33,12 @@ class ByteRegisterTest {
     ByteBus bus = new ByteBus("commonBus");
     ByteRegister register = new ByteRegister(bus, clock, "register");
 
-    bus.put(255);
+    bus.put(Byte.of(255));
 
     register.setEnable(true);
     clock.tick();
 
     assertThat(register.getValue(), equalTo(Byte.of(0)));
-    assertThat(bus.getValue(), equalTo(0));
+    assertThat(bus.getValue(), equalTo(Byte.of(0)));
   }
 }

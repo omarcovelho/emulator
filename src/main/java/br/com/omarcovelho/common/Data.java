@@ -1,11 +1,16 @@
 package br.com.omarcovelho.common;
 
+import lombok.Getter;
+
+@Getter
 public abstract class Data {
 
     private final int value;
+    private final int size;
 
     protected Data(int value, int size) {
         this.value = value;
+        this.size = size;
         int maxValue = (int) Math.pow(2, size) - 1;
         if(value > maxValue) {
             throw new IllegalArgumentException(

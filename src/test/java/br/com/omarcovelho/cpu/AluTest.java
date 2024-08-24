@@ -22,9 +22,9 @@ class AluTest {
 
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b00001101);
+        commonBus.put(Byte.of(0b00001101));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(0b00001010);
+        commonBus.put(Byte.of(0b00001010));
 
         alu.setOperation(AluOperationFactory.ADD);
         setOutputRegisters(clock, alu);
@@ -40,9 +40,9 @@ class AluTest {
 
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b00000001);
+        commonBus.put(Byte.of(0b00000001));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(0b00001010);
+        commonBus.put(Byte.of(0b00001010));
         alu.setBus1(true);
 
         alu.setOperation(AluOperationFactory.ADD);
@@ -73,9 +73,9 @@ class AluTest {
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
-        commonBus.put(13);
+        commonBus.put(Byte.of(13));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(10);
+        commonBus.put(Byte.of(10));
 
         alu.setOperation(AluOperationFactory.ADD);
         setOutputRegisters(clock, alu);
@@ -91,9 +91,9 @@ class AluTest {
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
-        commonBus.put(255);
+        commonBus.put(Byte.of(255));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(255);
+        commonBus.put(Byte.of(255));
 
         alu.setOperation(AluOperationFactory.ADD);
         setOutputRegisters(clock, alu);
@@ -108,7 +108,7 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(8);
+        commonBus.put(Byte.of(8));
 
         alu.setOperation(AluOperationFactory.SHR);
         setOutputRegisters(clock, alu);
@@ -124,7 +124,7 @@ class AluTest {
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
-        commonBus.put(2);
+        commonBus.put(Byte.of(2));
 
         alu.setOperation(AluOperationFactory.SHR);
         setOutputRegisters(clock, alu);
@@ -138,7 +138,7 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b10101011);
+        commonBus.put(Byte.of(0b10101011));
 
         alu.setOperation(AluOperationFactory.SHR);
         setOutputRegisters(clock, alu);
@@ -153,7 +153,7 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b00001001);
+        commonBus.put(Byte.of(0b00001001));
 
         alu.setOperation(AluOperationFactory.SHL);
         setOutputRegisters(clock, alu);
@@ -169,7 +169,7 @@ class AluTest {
         Alu alu = new Alu(clock, commonBus);
         alu.setCarryIn(true);
 
-        commonBus.put(0b11000001);
+        commonBus.put(Byte.of(0b11000001));
 
         alu.setOperation(AluOperationFactory.SHL);
         setOutputRegisters(clock, alu);
@@ -184,7 +184,7 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b10101001);
+        commonBus.put(Byte.of(0b10101001));
 
         alu.setOperation(AluOperationFactory.NOT);
         setOutputRegisters(clock, alu);
@@ -198,9 +198,9 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b11000011);
+        commonBus.put(Byte.of(0b11000011));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(0b10111001);
+        commonBus.put(Byte.of(0b10111001));
 
         alu.setOperation(AluOperationFactory.AND);
         setOutputRegisters(clock, alu);
@@ -214,9 +214,9 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b11000011);
+        commonBus.put(Byte.of(0b11000011));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(0b10111001);
+        commonBus.put(Byte.of(0b10111001));
 
         alu.setOperation(AluOperationFactory.OR);
         setOutputRegisters(clock, alu);
@@ -230,9 +230,9 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b11000011);
+        commonBus.put(Byte.of(0b11000011));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(0b10111001);
+        commonBus.put(Byte.of(0b10111001));
 
         alu.setOperation(AluOperationFactory.XOR);
         setOutputRegisters(clock, alu);
@@ -246,9 +246,9 @@ class AluTest {
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
 
-        commonBus.put(0b10000000);
+        commonBus.put(Byte.of(0b10000000));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(0b00001000);
+        commonBus.put(Byte.of(0b00001000));
 
 
         alu.setOperation(AluOperationFactory.CMP);
@@ -258,9 +258,9 @@ class AluTest {
         assertFalse(alu.getFlagsRegister().isALarger());
         assertFalse(alu.getFlagsRegister().isEqual());
 
-        commonBus.put(0b00001000);
+        commonBus.put(Byte.of(0b00001000));
         setValueOnRegister(clock, alu.getTmp());
-        commonBus.put(0b10000000);
+        commonBus.put(Byte.of(0b10000000));
 
         alu.setOperation(AluOperationFactory.CMP);
         setOutputRegisters(clock, alu);
@@ -269,8 +269,8 @@ class AluTest {
         assertTrue(alu.getFlagsRegister().isALarger());
         assertFalse(alu.getFlagsRegister().isEqual());
 
-        commonBus.put(0b10000000);
-        commonBus.put(0b10000000);
+        commonBus.put(Byte.of(0b10000000));
+        commonBus.put(Byte.of(0b10000000));
         setValueOnRegister(clock, alu.getTmp());
 
         alu.setOperation(AluOperationFactory.CMP);

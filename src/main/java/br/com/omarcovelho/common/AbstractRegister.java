@@ -28,7 +28,7 @@ public class AbstractRegister extends ControlledComponent implements Clockable {
         }
     }
     protected void doSet() {
-        this.value = Byte.of(bus.getValue());
+        this.value = bus.getValue();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class AbstractRegister extends ControlledComponent implements Clockable {
     }
 
     protected void doEnable() {
-        this.bus.put(this.value.toInt());
+        this.bus.put(this.value);
     }
 
     @Override
