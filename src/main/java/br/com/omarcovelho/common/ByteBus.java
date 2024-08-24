@@ -8,6 +8,6 @@ import lombok.Setter;
 public class ByteBus extends AbstractBus {
 
   public ByteBus(String id) {
-    super(id, 8);
+    super(Byte.of(0), id, 8);
   }
 }

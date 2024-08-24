@@ -54,4 +54,9 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     public void onRegisterChange(AbstractRegister register) {
         operation.execute(this);
     }
+
+    public void printState() {
+        System.out.println("Current ALU Operation: " + operation.getClass().getSimpleName());
+        System.out.println("Alu Flags: " + getFlagsRegister());
+    }
 }

@@ -13,7 +13,8 @@ public class AbstractBus {
 
     private final List<BusSubscriber> watchers = new ArrayList<>();
 
-    public AbstractBus(String id, int size) {
+    protected AbstractBus(Data initialData, String id, int size) {
+        this.data = initialData;
         this.id = id;
         this.size = size;
         this.maxValue = (int) Math.pow(2, size) - 1;

@@ -47,6 +47,7 @@ public class Cpu {
         buffer.append(String.format("ACC: %s", alu.getAcc()));
         System.out.println("Registers");
         System.out.println(buffer);
+        alu.printState();
         System.out.println("Stepper");
     }
 }

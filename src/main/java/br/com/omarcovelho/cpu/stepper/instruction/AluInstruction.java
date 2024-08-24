@@ -12,7 +12,7 @@ public class AluInstruction implements Instruction {
 
     @Override
     public boolean supports(Data instruction) {
-        return (0b10000000 & instruction.toInt()) > 0;
+        return 0b1 == (instruction.toInt() >> 7);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class AluInstruction implements Instruction {
                 int regAAddress = (ir.getValue().toInt() & 0b00001100) >> 2;
                 ComponentsRegistry.resolveRegister(regAAddress).setEnable(true);
                 ComponentsRegistry.get(ComponentType.ACC).setSet(true);
-
+                ComponentsRegistry.getAlu().getFlagsRegister().setSet(true);
             },
             (ir) ->  {
                 int regBAddress = ir.getValue().toInt() & 0b00000011;

@@ -50,6 +50,7 @@ public class Stepper implements Clockable, RegisterSubscriber {
     @Override
     public void clkFinish() {
         cpu.getAlu().setBus1(false);
+        cpu.getAlu().getFlagsRegister().setSet(false);
         ComponentsRegistry.getAll()
                 .forEach(ControlledComponent::clearFlags);
         ComponentsRegistry.getRegisters()

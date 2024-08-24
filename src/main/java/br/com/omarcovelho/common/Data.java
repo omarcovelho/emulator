@@ -24,6 +24,6 @@ public abstract class Data {
 
     @Override
     public String toString() {
-        return String.format("%8s", Integer.toBinaryString(value)).replace(' ', '0');
+        return String.format("%" + size + "s", Integer.toBinaryString(value)).replace(' ', '0');
     }
 }

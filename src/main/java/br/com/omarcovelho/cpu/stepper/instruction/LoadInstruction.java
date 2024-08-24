@@ -12,7 +12,7 @@ public class LoadInstruction implements Instruction {
 
     @Override
     public boolean supports(Data instruction) {
-        return (0b0000 & (instruction.toInt() >> 4)) > 0;
+        return 0b0000 == (instruction.toInt() >> 4);
     }
 
     @Override

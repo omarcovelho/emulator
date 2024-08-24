@@ -5,18 +5,9 @@ import br.com.omarcovelho.common.Clockable;
 import br.com.omarcovelho.common.FourBitBus;
 import br.com.omarcovelho.common.NibbleRegister;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class FlagsRegister extends NibbleRegister implements Clockable {
-    @Setter
-    private boolean carryOut;
-    @Setter
-    private boolean aLarger;
-    @Setter
-    private boolean equal;
-    @Setter
-    private boolean zero;
 
     public FlagsRegister(FourBitBus flagsBus, Clock clock) {
         super(flagsBus, "flagsRegister", clock);
@@ -29,11 +20,19 @@ public class FlagsRegister extends NibbleRegister implements Clockable {
             doSet();
         }
     }
+    public boolean isCarryOut() {
+        return (getValue().toInt() & 0b1000) > 0;
+    }
 
-    protected void doSet() {
-        this.carryOut = (getBus().getValue().toInt() & 0b1000) > 0;
-        this.aLarger = (getBus().getValue().toInt() & 0b0100) > 0;
-        this.equal = (getBus().getValue().toInt() & 0b0010) > 0;
-        this.zero = (getBus().getValue().toInt() & 0b0001) > 0;
+    public boolean isALarger() {
+        return (getValue().toInt() & 0b0100) > 0;
+    }
+
+    public boolean isEqual() {
+        return (getValue().toInt() & 0b0010) > 0;
+    }
+
+    public boolean isZero() {
+        return (getValue().toInt() & 0b0001) > 0;
     }
 }

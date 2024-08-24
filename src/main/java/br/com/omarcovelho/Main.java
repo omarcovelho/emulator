@@ -6,7 +6,7 @@ public class Main {
 
   public static void main(String[] args) {
     Clock clock = new Clock();
-    Computer computer = new Computer(clock, Programs.xorRegisters());
+    Computer computer = new Computer(clock, Programs.jumpIfCarry());
 
 
     while(true) {

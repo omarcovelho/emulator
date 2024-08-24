@@ -74,7 +74,7 @@ public class Programs {
         values[1] = Byte.of(0b11110011);//data loaded to r0 address to read from
         values[2] = Byte.of(0b00100001);//load data to r1
         values[3] = Byte.of(0b00110000);//data loaded to r1 address to read from
-        values[4] = Byte.of(0b11000001);//not r0 and store on r1
+        values[4] = Byte.of(0b11000001);//and r0 and store on r1
 
         return values;
     }
@@ -86,7 +86,7 @@ public class Programs {
         values[1] = Byte.of(0b11110011);//data loaded to r0 address to read from
         values[2] = Byte.of(0b00100001);//load data to r1
         values[3] = Byte.of(0b00110000);//data loaded to r1 address to read from
-        values[4] = Byte.of(0b11010001);//not r0 and store on r1
+        values[4] = Byte.of(0b11010001);//or r0 and store on r1
 
         return values;
     }
@@ -98,7 +98,47 @@ public class Programs {
         values[1] = Byte.of(0b11110011);//data loaded to r0 address to read from
         values[2] = Byte.of(0b00100001);//load data to r1
         values[3] = Byte.of(0b00110000);//data loaded to r1 address to read from
-        values[4] = Byte.of(0b11100001);//not r0 and store on r1
+        values[4] = Byte.of(0b11100001);//xor r0 and store on r1
+
+        return values;
+    }
+
+    public static Byte[] jumpIfAIsLarger() {
+        Byte[] values = new Byte[256];
+
+        values[0] = Byte.of(0b00100000);//load data to r0
+        values[1] = Byte.of(0b00000010);//data loaded to r0 address to read from
+        values[2] = Byte.of(0b00100001);//load data to r1
+        values[3] = Byte.of(0b00000001);//data loaded to r1 address to read from
+        values[4] = Byte.of(0b11110001);//compare r0 and store on r1
+        values[5] = Byte.of(0b01010100);//Jump if a greater
+        values[6] = Byte.of(0b00000000);
+
+        return values;
+    }
+
+    public static Byte[] jumpIfAIsEqual() {
+        Byte[] values = new Byte[256];
+
+        values[0] = Byte.of(0b00100000);//load data to r0
+        values[1] = Byte.of(0b00000001);//data loaded to r0 address to read from
+        values[2] = Byte.of(0b00100001);//load data to r1
+        values[3] = Byte.of(0b00000001);//data loaded to r1 address to read from
+        values[4] = Byte.of(0b11110001);//compare r0 and store on r1
+        values[5] = Byte.of(0b01010010);//Jump if a greater
+        values[6] = Byte.of(0b00000000);
+
+        return values;
+    }
+
+    public static Byte[] jumpIfCarry() {
+        Byte[] values = new Byte[256];
+
+        values[0] = Byte.of(0b00100000);//load data to r0
+        values[1] = Byte.of(0b00000010);//data loaded to r0 address to read from
+        values[2] = Byte.of(0b10100000);//shiftright r0 and store on r0
+        values[3] = Byte.of(0b01011000);//Jump if a greater
+        values[4] = Byte.of(0b00000000);
 
         return values;
     }

@@ -8,6 +8,6 @@ import lombok.Setter;
 public class FourBitBus extends AbstractBus {
 
     public FourBitBus(String id) {
-        super(id, 4);
+        super(Nibble.of(0), id, 4);
     }
 }

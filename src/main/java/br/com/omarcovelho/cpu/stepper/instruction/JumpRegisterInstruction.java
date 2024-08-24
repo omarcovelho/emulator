@@ -11,7 +11,7 @@ import java.util.List;
 public class JumpRegisterInstruction implements Instruction {
     @Override
     public boolean supports(Data instruction) {
-        return (0b0011 & (instruction.toInt() >> 4)) > 0;
+        return 0b0011 == (instruction.toInt() >> 4);
     }
 
     @Override

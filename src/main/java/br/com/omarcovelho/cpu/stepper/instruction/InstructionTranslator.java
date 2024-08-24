@@ -21,7 +21,8 @@ public class InstructionTranslator {
             new JumpInstruction(),
             new JumpRegisterInstruction(),
             new LoadInstruction(),
-            new StoreInstruction()
+            new StoreInstruction(),
+            new JumpOnFlagsInstruction()
         );
     }
 
