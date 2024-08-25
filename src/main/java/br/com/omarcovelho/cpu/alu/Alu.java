@@ -43,7 +43,7 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     }
 
     public void setBus1(boolean bool) {
-        this.tmp.setBypass(true);
+        this.tmp.setBypass(bool);
     }
 
     @Override
