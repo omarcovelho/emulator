@@ -1,9 +1,7 @@
 package br.com.omarcovelho.cpu;
 
 import br.com.omarcovelho.common.Byte;
-import br.com.omarcovelho.common.ByteBus;
-import br.com.omarcovelho.common.ByteRegister;
-import br.com.omarcovelho.common.Clock;
+import br.com.omarcovelho.common.*;
 import br.com.omarcovelho.cpu.alu.Alu;
 import br.com.omarcovelho.cpu.alu.AluOperationFactory;
 import org.junit.jupiter.api.Test;
@@ -71,7 +69,8 @@ class AluTest {
         Clock clock = new Clock();
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
-        alu.setCarryIn(true);
+        alu.getFlagsRegister().getBus().put(Nibble.of(0b1000));
+        clock.tick();
 
         commonBus.put(Byte.of(13));
         setValueOnRegister(clock, alu.getTmp());
@@ -89,7 +88,8 @@ class AluTest {
         Clock clock = new Clock();
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
-        alu.setCarryIn(true);
+        alu.getFlagsRegister().getBus().put(Nibble.of(0b1000));
+        clock.tick();
 
         commonBus.put(Byte.of(255));
         setValueOnRegister(clock, alu.getTmp());
@@ -122,7 +122,8 @@ class AluTest {
         Clock clock = new Clock();
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
-        alu.setCarryIn(true);
+        alu.getFlagsRegister().getBus().put(Nibble.of(0b1000));
+        clock.tick();
 
         commonBus.put(Byte.of(2));
 
@@ -167,7 +168,8 @@ class AluTest {
         Clock clock = new Clock();
         ByteBus commonBus = new ByteBus("commonBus");
         Alu alu = new Alu(clock, commonBus);
-        alu.setCarryIn(true);
+        alu.getFlagsRegister().getBus().put(Nibble.of(0b1000));
+        clock.tick();
 
         commonBus.put(Byte.of(0b11000001));
 

@@ -1,18 +1,15 @@
 package br.com.omarcovelho.cpu.alu;
 
+import br.com.omarcovelho.common.Byte;
 import br.com.omarcovelho.common.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Map;
 
 @Getter
 public class Alu implements BusSubscriber, RegisterSubscriber {
-    private final ByteRegister tmp;
+    private final Bus1Register tmp;
     private final ByteRegister acc;
-    @Setter
-    private boolean carryIn;
-    private boolean bus1;
     private final ByteBus accBus;
     private final ByteBus commonBus;
     private AluOperation operation = AluOperationFactory.getOperation(0b000);
@@ -23,7 +20,7 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
         this.accBus = new ByteBus("accBus");
         this.commonBus = bus;
         this.acc = new DualBusByteRegister(bus, clock, "acc", accBus);
-        this.tmp = new ByteRegister(bus, clock, "tmp");
+        this.tmp = new Bus1Register(bus, clock, "tmp");
         this.flagsBus = new FourBitBus("flags");
         this.flagsRegister = new FlagsRegister(flagsBus, clock);
 
@@ -45,9 +42,8 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
         operation.execute(this);
     }
 
-    public void setBus1(boolean bus1) {
-        this.bus1 = bus1;
-        operation.execute(this);
+    public void setBus1(boolean bool) {
+        this.tmp.setBypass(true);
     }
 
     @Override
@@ -58,5 +54,17 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     public void printState() {
         System.out.println("Current ALU Operation: " + operation.getClass().getSimpleName());
         System.out.println("Alu Flags: " + getFlagsRegister());
+    }
+
+    public boolean isCarryIn() {
+        return getFlagsRegister().isCarryOut();
+    }
+
+    public boolean isBus1() {
+        return this.tmp.isBypass();
+    }
+
+    public void disableA() {
+        this.commonBus.put(Byte.of(0));
     }
 }

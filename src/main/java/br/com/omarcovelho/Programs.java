@@ -142,4 +142,36 @@ public class Programs {
 
         return values;
     }
+
+    public static Byte[] shiftRightUntilZero() {
+        Byte[] values = new Byte[256];
+
+        values[0] = Byte.of(0b00100000);//load data to r0
+        values[1] = Byte.of(0b11111111);//data loaded to r0 address to read from
+        values[2] = Byte.of(0b00100001);//load data to r1 to compare
+        values[3] = Byte.of(0b00000001);//data loaded to r1 address to read from
+        values[4] = Byte.of(0b01100000);//clear flags
+        values[5] = Byte.of(0b10100000);//shiftright r0 and store on r0
+        values[6] = Byte.of(0b11110001);//compare r0 to r1
+        values[7] = Byte.of(0b01010100);//Jump if r0 greater than r1
+        values[8] = Byte.of(0b00000100);
+
+        return values;
+    }
+
+    public static Byte[] shiftLeftUntilZero() {
+        Byte[] values = new Byte[256];
+
+        values[0] = Byte.of(0b00100000);//load data to r0
+        values[1] = Byte.of(0b11111111);//data loaded to r0 address to read from
+        values[2] = Byte.of(0b00100001);//load data to r1 to compare
+        values[3] = Byte.of(0b00000001);//data loaded to r1 address to read from
+        values[4] = Byte.of(0b01100000);//clear flags
+        values[5] = Byte.of(0b10010000);//shiftright r0 and store on r0
+        values[6] = Byte.of(0b11110001);//compare r0 to r1
+        values[7] = Byte.of(0b01010100);//Jump if r0 greater than r1
+        values[8] = Byte.of(0b00000100);
+
+        return values;
+    }
 }

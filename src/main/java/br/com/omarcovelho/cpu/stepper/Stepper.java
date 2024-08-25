@@ -3,6 +3,7 @@ package br.com.omarcovelho.cpu.stepper;
 import br.com.omarcovelho.common.*;
 import br.com.omarcovelho.cpu.Cpu;
 import br.com.omarcovelho.cpu.InstructionStep;
+import br.com.omarcovelho.cpu.alu.AluOperationFactory;
 import br.com.omarcovelho.cpu.alu.RegisterSubscriber;
 import br.com.omarcovelho.cpu.stepper.fetch.ReadInstructionToIr;
 import br.com.omarcovelho.cpu.stepper.fetch.SetMemoryAddressFromIarStep;
@@ -51,6 +52,7 @@ public class Stepper implements Clockable, RegisterSubscriber {
     public void clkFinish() {
         cpu.getAlu().setBus1(false);
         cpu.getAlu().getFlagsRegister().setSet(false);
+        cpu.getAlu().setOperation(AluOperationFactory.ADD);
         ComponentsRegistry.getAll()
                 .forEach(ControlledComponent::clearFlags);
         ComponentsRegistry.getRegisters()

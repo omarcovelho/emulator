@@ -10,7 +10,6 @@ public class AbstractBus {
     private final String id;
     private final int size;
     private final int maxValue;
-
     private final List<BusSubscriber> watchers = new ArrayList<>();
 
     protected AbstractBus(Data initialData, String id, int size) {
