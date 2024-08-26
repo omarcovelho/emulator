@@ -1,7 +1,6 @@
 package br.com.omarcovelho.cpu.stepper.instruction;
 
 import br.com.omarcovelho.common.ComponentType;
-import br.com.omarcovelho.common.ComponentsRegistry;
 import br.com.omarcovelho.common.Data;
 import br.com.omarcovelho.cpu.InstructionStep;
 
@@ -17,13 +16,13 @@ public class JumpInstruction implements Instruction {
     @Override
     public List<InstructionStep> getSteps(Data instruction) {
         return Arrays.asList(
-            (ir) -> {
-                ComponentsRegistry.get(ComponentType.IAR).setEnable(true);
-                ComponentsRegistry.get(ComponentType.MAR).setSet(true);
+            (ir, componentsRegistry) -> {
+                componentsRegistry.get(ComponentType.IAR).setEnable(true);
+                componentsRegistry.get(ComponentType.MAR).setSet(true);
             },
-            (ir) -> {
-                ComponentsRegistry.get(ComponentType.RAM).setEnable(true);
-                ComponentsRegistry.get(ComponentType.IAR).setSet(true);
+            (ir, componentsRegistry) -> {
+                componentsRegistry.get(ComponentType.RAM).setEnable(true);
+                componentsRegistry.get(ComponentType.IAR).setSet(true);
             }
         );
     }

@@ -10,7 +10,7 @@ public class AbstractBus {
     private final String id;
     private final int size;
     private final int maxValue;
-    private final List<BusSubscriber> watchers = new ArrayList<>();
+    private final List<BusSubscriber> subscribers = new ArrayList<>();
 
     protected AbstractBus(Data initialData, String id, int size) {
         this.data = initialData;
@@ -25,9 +25,8 @@ public class AbstractBus {
 
     public void put(Data data) {
         if(data.getSize() == this.size) {
-            System.out.println("Data put on bus [" + this.id + "]: " + data);
             this.data = data;
-            watchers.forEach(BusSubscriber::onBusChange);
+            subscribers.forEach(BusSubscriber::onBusChange);
         } else {
             throw new IllegalArgumentException(
                     String.format("this bus has only [%s] bits and does not support [%s], max value is [%s]", size, data, padInteger(maxValue)));
@@ -39,6 +38,6 @@ public class AbstractBus {
     }
 
     public void subscribe(BusSubscriber busSubscriber) {
-        this.watchers.add(busSubscriber);
+        this.subscribers.add(busSubscriber);
     }
 }

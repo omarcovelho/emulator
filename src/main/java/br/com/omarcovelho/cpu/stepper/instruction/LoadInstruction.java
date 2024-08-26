@@ -1,7 +1,6 @@
 package br.com.omarcovelho.cpu.stepper.instruction;
 
 import br.com.omarcovelho.common.ComponentType;
-import br.com.omarcovelho.common.ComponentsRegistry;
 import br.com.omarcovelho.common.Data;
 import br.com.omarcovelho.cpu.InstructionStep;
 
@@ -18,15 +17,15 @@ public class LoadInstruction implements Instruction {
     @Override
     public List<InstructionStep> getSteps(Data instruction) {
         return Arrays.asList(
-            (ir) -> {
+            (ir, componentsRegistry) -> {
                 int addressRegister = ir.getValue().toInt() & 0b00001100;
-                ComponentsRegistry.resolveRegister(addressRegister).setEnable(true);
-                ComponentsRegistry.get(ComponentType.MAR).setSet(true);
+                componentsRegistry.resolveRegister(addressRegister).setEnable(true);
+                componentsRegistry.get(ComponentType.MAR).setSet(true);
             },
-            (ir) -> {
+            (ir, componentsRegistry) -> {
                 int targetRegister = ir.getValue().toInt() & 0b000000011;
-                ComponentsRegistry.get(ComponentType.RAM).setEnable(true);
-                ComponentsRegistry.resolveRegister(targetRegister).setSet(true);
+                componentsRegistry.get(ComponentType.RAM).setEnable(true);
+                componentsRegistry.resolveRegister(targetRegister).setSet(true);
             }
         );
     }

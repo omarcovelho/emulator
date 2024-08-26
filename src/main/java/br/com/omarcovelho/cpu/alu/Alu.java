@@ -16,7 +16,7 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     private final FourBitBus flagsBus;
     private final FlagsRegister flagsRegister;
 
-    public Alu(Clock clock, ByteBus bus) {
+    public Alu(Clock clock, ByteBus bus, ComponentsRegistry componentsRegistry) {
         this.accBus = new ByteBus("accBus");
         this.commonBus = bus;
         this.acc = new DualBusByteRegister(bus, clock, "acc", accBus);
@@ -26,7 +26,7 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
 
         this.commonBus.subscribe(this);
 
-        ComponentsRegistry.put(Map.ofEntries(
+        componentsRegistry.put(Map.ofEntries(
             Map.entry(ComponentType.TMP, tmp),
             Map.entry(ComponentType.ACC, acc)
         ));
@@ -52,7 +52,6 @@ public class Alu implements BusSubscriber, RegisterSubscriber {
     }
 
     public void printState() {
-        System.out.println("Current ALU Operation: " + operation.getClass().getSimpleName());
         System.out.println("Alu Flags: " + getFlagsRegister());
     }
 

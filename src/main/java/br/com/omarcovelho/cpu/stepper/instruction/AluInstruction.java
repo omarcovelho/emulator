@@ -1,7 +1,6 @@
 package br.com.omarcovelho.cpu.stepper.instruction;
 
 import br.com.omarcovelho.common.ComponentType;
-import br.com.omarcovelho.common.ComponentsRegistry;
 import br.com.omarcovelho.common.Data;
 import br.com.omarcovelho.cpu.InstructionStep;
 import br.com.omarcovelho.cpu.alu.AluOperationFactory;
@@ -19,25 +18,26 @@ public class AluInstruction implements Instruction {
     @Override
     public List<InstructionStep> getSteps(Data instruction) {
         return Arrays.asList(
-            (ir) ->  {
+            (ir, componentsRegistry) ->  {
                 int regBAddress = ir.getValue().toInt() & 0b00000011;
-                ComponentsRegistry.resolveRegister(regBAddress).setEnable(true);
-                ComponentsRegistry.get(ComponentType.TMP).setSet(true);
+                componentsRegistry.resolveRegister(regBAddress).setEnable(true);
+                componentsRegistry.get(ComponentType.TMP).setSet(true);
             },
-            (ir) ->  {
+            (ir, componentsRegistry) ->  {
                 int operationCode = (ir.getValue().toInt() & 0b01110000) >> 4;
-                ComponentsRegistry.getAlu().setOperation(operationCode);
+                componentsRegistry.getAlu().setOperation(operationCode);
+                System.out.println("Execution ALU operation: " + componentsRegistry.getAlu().getOperation().getClass().getSimpleName());
                 int regAAddress = (ir.getValue().toInt() & 0b00001100) >> 2;
-                ComponentsRegistry.resolveRegister(regAAddress).setEnable(true);
-                ComponentsRegistry.get(ComponentType.ACC).setSet(true);
-                ComponentsRegistry.getAlu().getFlagsRegister().setSet(true);
+                componentsRegistry.resolveRegister(regAAddress).setEnable(true);
+                componentsRegistry.get(ComponentType.ACC).setSet(true);
+                componentsRegistry.getAlu().getFlagsRegister().setSet(true);
             },
-            (ir) ->  {
+            (ir, componentsRegistry) ->  {
                 int operationCode = (ir.getValue().toInt() & 0b01110000) >> 4;
                 if(operationCode != AluOperationFactory.CMP) {
                     int regBAddress = ir.getValue().toInt() & 0b00000011;
-                    ComponentsRegistry.get(ComponentType.ACC).setEnable(true);
-                    ComponentsRegistry.resolveRegister(regBAddress).setSet(true);
+                    componentsRegistry.get(ComponentType.ACC).setEnable(true);
+                    componentsRegistry.resolveRegister(regBAddress).setSet(true);
                 }
             }
         );

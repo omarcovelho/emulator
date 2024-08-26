@@ -1,6 +1,5 @@
 package br.com.omarcovelho.cpu.stepper.instruction;
 
-import br.com.omarcovelho.common.ComponentsRegistry;
 import br.com.omarcovelho.common.Data;
 import br.com.omarcovelho.cpu.InstructionStep;
 import br.com.omarcovelho.cpu.alu.AluOperationFactory;
@@ -18,11 +17,11 @@ public class ClearFlagInstruction implements Instruction {
     @Override
     public List<InstructionStep> getSteps(Data instruction) {
         return Arrays.asList(
-                (ir) -> {
-                    ComponentsRegistry.getAlu().setOperation(AluOperationFactory.ADD);
-                    ComponentsRegistry.getAlu().setBus1(true);
-                    ComponentsRegistry.getAlu().disableA();
-                    ComponentsRegistry.getAlu().getFlagsRegister().setSet(true);
+                (ir, componentsRegistry) -> {
+                    componentsRegistry.getAlu().setOperation(AluOperationFactory.ADD);
+                    componentsRegistry.getAlu().setBus1(true);
+                    componentsRegistry.getAlu().disableA();
+                    componentsRegistry.getAlu().getFlagsRegister().setSet(true);
                 }
         );
     }

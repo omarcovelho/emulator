@@ -1,7 +1,6 @@
 package br.com.omarcovelho.cpu.stepper.instruction;
 
 import br.com.omarcovelho.common.ComponentType;
-import br.com.omarcovelho.common.ComponentsRegistry;
 import br.com.omarcovelho.common.Data;
 import br.com.omarcovelho.cpu.InstructionStep;
 
@@ -17,10 +16,10 @@ public class JumpRegisterInstruction implements Instruction {
     @Override
     public List<InstructionStep> getSteps(Data instruction) {
         return Arrays.asList(
-            (ir) -> {
+            (ir, componentsRegistry) -> {
                 int addressRegister = ir.getValue().toInt() & 0b00000011;
-                ComponentsRegistry.resolveRegister(addressRegister).setEnable(true);
-                ComponentsRegistry.get(ComponentType.IAR).setSet(true);
+                componentsRegistry.resolveRegister(addressRegister).setEnable(true);
+                componentsRegistry.get(ComponentType.IAR).setSet(true);
             }
         );
     }

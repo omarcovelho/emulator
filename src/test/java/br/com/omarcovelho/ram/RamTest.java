@@ -3,6 +3,7 @@ package br.com.omarcovelho.ram;
 import br.com.omarcovelho.common.Byte;
 import br.com.omarcovelho.common.ByteBus;
 import br.com.omarcovelho.common.Clock;
+import br.com.omarcovelho.common.ComponentsRegistry;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -14,7 +15,7 @@ class RamTest {
   public void shouldSetAddress() {
     Clock clock = new Clock();
     ByteBus bus = new ByteBus("commonBus");
-    Ram ram = new Ram(bus, clock, new Byte[256]);
+    Ram ram = new Ram(bus, clock, new Byte[256], new ComponentsRegistry());
     ram.subscribe(clock);
 
     bus.put(Byte.of(2));
@@ -29,7 +30,7 @@ class RamTest {
     Clock clock = new Clock();
 
     ByteBus bus = new ByteBus("commonBus");
-    Ram ram = new Ram(bus, clock, new Byte[256]);
+    Ram ram = new Ram(bus, clock, new Byte[256], new ComponentsRegistry());
 
     bus.put(Byte.of(2));
     ram.setAddress(true);

@@ -11,7 +11,7 @@ public class AbstractRegister extends ControlledComponent implements Clockable {
     protected Data value;
     protected final AbstractBus bus;
     protected final String id;
-    private final List<RegisterSubscriber> listeners = new ArrayList<>();
+    private final List<RegisterSubscriber> subscribers = new ArrayList<>();
 
     public AbstractRegister(Data value, AbstractBus bus, String id, Clock clock) {
         this.value = value;
@@ -24,7 +24,7 @@ public class AbstractRegister extends ControlledComponent implements Clockable {
     public void clkSet() {
         if(this.isSet()) {
             doSet();
-            listeners.forEach(l -> l.onRegisterChange(this));
+            subscribers.forEach(l -> l.onRegisterChange(this));
         }
     }
     protected void doSet() {
@@ -48,6 +48,6 @@ public class AbstractRegister extends ControlledComponent implements Clockable {
     }
 
     public void register(RegisterSubscriber subscriber) {
-        this.listeners.add(subscriber);
+        this.subscribers.add(subscriber);
     }
 }

@@ -21,12 +21,14 @@ public class Stepper implements Clockable, RegisterSubscriber {
     private int stepIndex = 0;
     private final ByteRegister ir;
     private final InstructionTranslator instructionTranslator = new InstructionTranslator();
-    public Stepper(Clock clock, Cpu cpu, ByteRegister ir) {
+    private final ComponentsRegistry componentsRegistry;
+    public Stepper(Clock clock, Cpu cpu, ByteRegister ir, ComponentsRegistry componentsRegistry) {
         this.cpu = cpu;
         this.steps = initialStateSteps();
         this.subscribe(clock);
         this.ir = ir;
         this.ir.register(this);
+        this.componentsRegistry = componentsRegistry;
     }
 
     private LinkedList<InstructionStep> initialStateSteps() {
@@ -41,8 +43,8 @@ public class Stepper implements Clockable, RegisterSubscriber {
     public void preClock() {
         if (stepIndex < steps.size()) {
             InstructionStep step = steps.get(stepIndex++);
-            System.out.println("Executing " + step.getClass().getSimpleName() + "\n");
-            step.execute(ir);
+            System.out.println("Executing " + step.getClass().getSimpleName());
+            step.execute(ir, componentsRegistry);
         } else {
             stepIndex = 0;
         }
@@ -53,9 +55,9 @@ public class Stepper implements Clockable, RegisterSubscriber {
         cpu.getAlu().setBus1(false);
         cpu.getAlu().getFlagsRegister().setSet(false);
         cpu.getAlu().setOperation(AluOperationFactory.ADD);
-        ComponentsRegistry.getAll()
+        componentsRegistry.getAll()
                 .forEach(ControlledComponent::clearFlags);
-        ComponentsRegistry.getRegisters()
+        componentsRegistry.getRegisters()
                 .forEach(ControlledComponent::clearFlags);
     }
 

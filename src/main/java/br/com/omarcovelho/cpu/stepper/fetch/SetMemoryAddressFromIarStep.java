@@ -14,11 +14,11 @@ public class SetMemoryAddressFromIarStep implements InstructionStep {
     private final Cpu cpu;
 
     @Override
-    public void execute(ByteRegister ir) {
-        ComponentsRegistry.getAlu().setOperation(AluOperationFactory.ADD);
-        ComponentsRegistry.getAlu().setBus1(true);
-        ComponentsRegistry.get(ComponentType.IAR).setEnable(true);
-        ComponentsRegistry.get(ComponentType.MAR).setSet(true);
-        ComponentsRegistry.get(ComponentType.ACC).setSet(true);
+    public void execute(ByteRegister ir, ComponentsRegistry componentsRegistry) {
+        componentsRegistry.getAlu().setOperation(AluOperationFactory.ADD);
+        componentsRegistry.getAlu().setBus1(true);
+        componentsRegistry.get(ComponentType.IAR).setEnable(true);
+        componentsRegistry.get(ComponentType.MAR).setSet(true);
+        componentsRegistry.get(ComponentType.ACC).setSet(true);
     }
 }

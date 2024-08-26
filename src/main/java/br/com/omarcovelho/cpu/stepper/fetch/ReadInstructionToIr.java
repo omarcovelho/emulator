@@ -7,8 +7,8 @@ import br.com.omarcovelho.cpu.InstructionStep;
 
 public class ReadInstructionToIr implements InstructionStep {
     @Override
-    public void execute(ByteRegister ir) {
-        ComponentsRegistry.get(ComponentType.RAM).setEnable(true);
-        ComponentsRegistry.get(ComponentType.IR).setSet(true);
+    public void execute(ByteRegister ir, ComponentsRegistry componentsRegistry) {
+        componentsRegistry.get(ComponentType.RAM).setEnable(true);
+        componentsRegistry.get(ComponentType.IR).setSet(true);
     }
 }

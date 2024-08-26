@@ -7,8 +7,8 @@ import br.com.omarcovelho.cpu.InstructionStep;
 
 public class SetNextInstruction implements InstructionStep {
     @Override
-    public void execute(ByteRegister ir) {
-        ComponentsRegistry.get(ComponentType.ACC).setEnable(true);
-        ComponentsRegistry.get(ComponentType.IAR).setSet(true);
+    public void execute(ByteRegister ir, ComponentsRegistry componentsRegistry) {
+        componentsRegistry.get(ComponentType.ACC).setEnable(true);
+        componentsRegistry.get(ComponentType.IAR).setSet(true);
     }
 }
